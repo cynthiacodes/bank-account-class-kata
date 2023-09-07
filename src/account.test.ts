@@ -17,3 +17,21 @@ test("testing the withdraw method in Account class, it should decrease the start
     yourAccount.withdraw(900);
     expect(yourAccount.toString()).toBe("Account id: 42, balance: 99");
 });
+
+test("testing the withdraw method in Account class, it should be a success when there is sufficient fund", () => {
+    const yourAccount = new Account(42, 999);
+
+    expect(yourAccount.withdraw(900)).toEqual({
+        outcome: "success",
+        balance: 99,
+    });
+});
+
+test("testing the withdraw method in Account class, it should be a fail when there is insufficient fund", () => {
+    const yourAccount = new Account(42, 999);
+
+    expect(yourAccount.withdraw(9000)).toEqual({
+        outcome: "fail",
+        balance: 999,
+    });
+});

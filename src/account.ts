@@ -1,6 +1,11 @@
+type WithdrawalResult =
+    | { outcome: "success"; balance: number }
+    | { outcome: "fail"; balance: number };
+
 export class Account {
     accountId: number;
     private startBalance: number;
+
     constructor(accountId: number, startBalance: number) {
         this.accountId = accountId;
         this.startBalance = startBalance;
@@ -11,19 +16,27 @@ export class Account {
     }
 
     withdraw(amount: number) {
-        this.startBalance -= amount;
+        let result: WithdrawalResult;
+        if (amount <= this.startBalance) {
+            result = {
+                outcome: "success",
+                balance: (this.startBalance -= amount),
+            };
+        } else {
+            result = {
+                outcome: "fail",
+                balance: this.startBalance,
+            };
+        }
+        return result;
     }
     toString() {
         return `Account id: ${this.accountId}, balance: ${this.startBalance}`;
     }
 }
 
-const myAccount = new Account(123, 100);
+const yourAccount = new Account(42, 999); //id: 42, starting balance: 999
 
-//TODO: Code your class so that TypeScript rejects the following code.
-// myAccount.startBalance = 1200000;
+console.log(yourAccount.withdraw(9000));
 
-//let's check that it is still possible to manipulate the balance
-//indirectly, via the deposit() function
-myAccount.deposit(1_000_000); //ka-ching!
-console.log(myAccount.toString());
+console.log(yourAccount.toString()); //"Account id: 42, balance 99"
