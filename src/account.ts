@@ -34,9 +34,3 @@ export class Account {
         return `Account id: ${this.accountId}, balance: ${this.startBalance}`;
     }
 }
-
-const yourAccount = new Account(42, 999); //id: 42, starting balance: 999
-
-console.log(yourAccount.withdraw(9000));
-
-console.log(yourAccount.toString()); //"Account id: 42, balance 99"
